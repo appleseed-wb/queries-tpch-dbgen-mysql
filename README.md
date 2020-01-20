@@ -11,7 +11,7 @@ $ cd 2.18.0_rc2/dbgen
 $ cp makefile.suite makefile
 ```  
 
-修改 makefile 文件，设置编译器、数据库和操作系统等
+修改 makefile 文件，设置编译器、数据库类型为MySQL和操作系统等
 ```
 ################
 ## CHANGE NAME OF ANSI COMPILER HERE
@@ -22,33 +22,33 @@ CC      = gcc
 # Current values for MACHINE are:  ATT, DOS, HP, IBM, ICL, MVS, 
 #                                  SGI, SUN, U2200, VMS, LINUX, WIN32 
 # Current values for WORKLOAD are:  TPCH
-DATABASE= *QLSERVER*
-MACHINE = *LINUX*
-WORKLOAD = *TPCH*
+DATABASE = MYSQL
+MACHINE = LINUX
+WORKLOAD = TPCH
 #
 ...
 ```  
 
-修改dbgen目录下的 *tpcd.h* 文件，支持MySQL语法  
+dbgen目录下的 *tpcd.h* 文件增加如下代码进行MySQL语法支持  
 ```
 ...
-#ifdef  SQLSERVER
-#define GEN_QUERY_PLAN  "set showplan on\nset noexec on\ngo\n"
-#define START_TRAN      "**BEGIN WORK;**"
-#define END_TRAN        "**COMMIT WORK;**"
+#ifdef MYSQL
+#define GEN_QUERY_PLAN  ""
+#define START_TRAN      "START TRANSACTION"
+#define END_TRAN        "COMMIT"
 #define SET_OUTPUT      ""
-#define SET_ROWCOUNT    "limit %d;\n\n"
+#define SET_ROWCOUNT    "limit %d;\n"
 #define SET_DBASE       "use %s;\n"
 #endif
 ...
 ```  
 
-执行make命令 
+执行make命令，生成dbgen文件
 ```
 $ make
 ```  
 
-通过以下命令生成100MB的数据
+通过以下命令生成100MB的数据（0.1=100MB，1=1GB）
 ```
 $ ./dbgen -s 0.1
 ```  
@@ -178,5 +178,4 @@ ALTER TABLE LINEITEM
 ADD FOREIGN KEY LINEITEM_FK2 (L_PARTKEY,L_SUPPKEY) references PARTSUPP(PS_PARTKEY, PS_SUPPKEY);
 ``` 
 
-Now you can run your test the queries uploaded in this repository.
-Hope that's useful!
+可以进行测试了
