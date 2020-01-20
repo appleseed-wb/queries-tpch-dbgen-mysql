@@ -1,7 +1,7 @@
 # queries-tpch-dbgen-mysql
 TPC-H MySQL基准测试
 
-解压缩TPC-H_Tools_v2.18.0.zip，并进入2.18.0_rc2/dbgen目录
+解压缩TPC-H_Tools_v2.18.0.zip，并进入 *2.18.0_rc2/dbgen* 目录
 ```
 $ cd 2.18.0_rc2/dbgen
 ```  
@@ -60,7 +60,7 @@ $ mysql> CREATE DATABASE tpch;
 $ mysql> USE tpch;
 ```  
 
-创建表  
+执行以下建表语句，可以在 *2.18.0_rc2/dbgendss.ddl* 中找到，但原始sql不支持MySQL
 ```
 CREATE TABLE NATION  ( N_NATIONKEY  INTEGER NOT NULL,
                             N_NAME       CHAR(25) NOT NULL,
@@ -144,7 +144,7 @@ LOAD DATA LOCAL INFILE 'region.tbl' INTO TABLE REGION FIELDS TERMINATED BY '|';
 LOAD DATA LOCAL INFILE 'supplier.tbl' INTO TABLE SUPPLIER FIELDS TERMINATED BY '|';
 ```  
 
-增加主外键
+执行以下增加主外键的语句，可以在 *2.18.0_rc2/dss.ri* 中找到，但原始sql不支持MySQL
 ```
 ALTER TABLE REGION
 ADD PRIMARY KEY (R_REGIONKEY);
