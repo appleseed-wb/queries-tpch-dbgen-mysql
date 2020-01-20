@@ -1,1 +1,22 @@
-select o_orderpriority, count(*) as order_count from ORDERS where o_orderdate >= date '1995-01-01' and o_orderdate < date '1995-01-01' + interval '3' month and exists (select * from LINEITEM where l_orderkey = o_orderkey and l_commitdate < l_receiptdate) group by o_orderpriority order by o_orderpriority;
+SELECT
+	o_orderpriority,
+	count(*) AS order_count
+FROM
+	ORDERS
+WHERE
+	o_orderdate >= date '1995-01-01'
+AND o_orderdate < date '1995-01-01' + INTERVAL '3' MONTH
+AND EXISTS (
+	SELECT
+		*
+	FROM
+		LINEITEM
+	WHERE
+		l_orderkey = o_orderkey
+	AND l_commitdate < l_receiptdate
+)
+GROUP BY
+	o_orderpriority
+ORDER BY
+	o_orderpriority;
+

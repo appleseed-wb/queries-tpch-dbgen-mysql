@@ -1,1 +1,52 @@
-select cntrycode, count(*) as numcust, sum(c_acctbal) as totacctbal from (select substring(c_phone from 1 for 2) as cntrycode, c_acctbal from CUSTOMER where substring(c_phone from 1 for 2) in ('20', '40', '22', '30', '39', '42', '21') and c_acctbal > ( select avg(c_acctbal) from CUSTOMER where c_acctbal > 0.00 and substring(c_phone from 1 for 2) in ('20', '40', '22', '30', '39', '42', '21')) and not exists ( select * from ORDERS where o_custkey = c_custkey)) as custsale group by cntrycode order by cntrycode;
+SELECT
+	cntrycode,
+	count(*) AS numcust,
+	sum(c_acctbal) AS totacctbal
+FROM
+	(
+		SELECT
+			substring(c_phone FROM 1 FOR 2) AS cntrycode,
+			c_acctbal
+		FROM
+			CUSTOMER
+		WHERE
+			substring(c_phone FROM 1 FOR 2) IN (
+				'20',
+				'40',
+				'22',
+				'30',
+				'39',
+				'42',
+				'21'
+			)
+		AND c_acctbal > (
+			SELECT
+				avg(c_acctbal)
+			FROM
+				CUSTOMER
+			WHERE
+				c_acctbal > 0.00
+			AND substring(c_phone FROM 1 FOR 2) IN (
+				'20',
+				'40',
+				'22',
+				'30',
+				'39',
+				'42',
+				'21'
+			)
+		)
+		AND NOT EXISTS (
+			SELECT
+				*
+			FROM
+				ORDERS
+			WHERE
+				o_custkey = c_custkey
+		)
+	) AS custsale
+GROUP BY
+	cntrycode
+ORDER BY
+	cntrycode;
+

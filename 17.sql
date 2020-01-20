@@ -1,1 +1,18 @@
-select sum(l_extendedprice) / 7.0 as avg_yearly from LINEITEM, PART where p_partkey = l_partkey and p_brand = 'Brand#44' and p_container = 'WRAP PKG' and l_quantity < (select 0.2 * avg(l_quantity) from LINEITEM where l_partkey = p_partkey);
+SELECT
+	sum(l_extendedprice) / 7.0 AS avg_yearly
+FROM
+	LINEITEM,
+	PART
+WHERE
+	p_partkey = l_partkey
+AND p_brand = 'Brand#44'
+AND p_container = 'WRAP PKG'
+AND l_quantity < (
+	SELECT
+		0.2 * avg(l_quantity)
+	FROM
+		LINEITEM
+	WHERE
+		l_partkey = p_partkey
+);
+

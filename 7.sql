@@ -1,1 +1,47 @@
-select supp_nation, cust_nation, l_year, sum(volume) as revenue from ( select n1.n_name as supp_nation, n2.n_name as cust_nation, extract(year from l_shipdate) as l_year, l_extendedprice * (1 - l_discount) as volume from SUPPLIER, LINEITEM, ORDERS, CUSTOMER, NATION n1, NATION n2 where s_suppkey = l_suppkey and o_orderkey = l_orderkey and c_custkey = o_custkey and s_nationkey = n1.n_nationkey and c_nationkey = n2.n_nationkey and ((n1.n_name = 'JAPAN' and n2.n_name = 'INDIA') or (n1.n_name = 'INDIA' and n2.n_name = 'JAPAN')) and l_shipdate between date '1995-01-01' and date '1996-12-31') as shipping group by supp_nation, cust_nation, l_year order by supp_nation, cust_nation, l_year;
+SELECT
+	supp_nation,
+	cust_nation,
+	l_year,
+	sum(volume) AS revenue
+FROM
+	(
+		SELECT
+			n1.n_name AS supp_nation,
+			n2.n_name AS cust_nation,
+			extract(YEAR FROM l_shipdate) AS l_year,
+			l_extendedprice * (1 - l_discount) AS volume
+		FROM
+			SUPPLIER,
+			LINEITEM,
+			ORDERS,
+			CUSTOMER,
+			NATION n1,
+			NATION n2
+		WHERE
+			s_suppkey = l_suppkey
+		AND o_orderkey = l_orderkey
+		AND c_custkey = o_custkey
+		AND s_nationkey = n1.n_nationkey
+		AND c_nationkey = n2.n_nationkey
+		AND (
+			(
+				n1.n_name = 'JAPAN'
+				AND n2.n_name = 'INDIA'
+			)
+			OR (
+				n1.n_name = 'INDIA'
+				AND n2.n_name = 'JAPAN'
+			)
+		)
+		AND l_shipdate BETWEEN date '1995-01-01'
+		AND date '1996-12-31'
+	) AS shipping
+GROUP BY
+	supp_nation,
+	cust_nation,
+	l_year
+ORDER BY
+	supp_nation,
+	cust_nation,
+	l_year;
+
