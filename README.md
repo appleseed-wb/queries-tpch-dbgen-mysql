@@ -1,5 +1,5 @@
 # queries-tpch-dbgen-mysql
-TPC-H MySQL基准测试
+TPC-H 基准测试，语法支持MySQL
 
 解压缩TPC-H_Tools_v2.18.0.zip，并进入 *2.18.0_rc2/dbgen* 目录
 ```
