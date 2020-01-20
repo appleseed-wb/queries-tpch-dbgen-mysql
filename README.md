@@ -1,21 +1,17 @@
 # queries-tpch-dbgen-mysql
-TPC-H Benchmark, specific for MYSQL  
+TPC-H MySQL基准测试
 
-Implementation TPC-H schema into MySQL DBMS: TUTORIAL
-
-[Download the DBGEN and reference data](http://www.tpc.org/tpch/spec/tpch_2_16_0.zip)  
-Unzip the downloaded file
-Navigate through the command line to DBGEN folder  
+解压缩TPC-H_Tools_v2.18.0.zip，并进入2.18.0_rc2/dbgen目录
 ```
-$ cd Downloads/tpch_2_16_0/tpch_2_15_0/dbgen/
+$ cd 2.18.0_rc2/dbgen
 ```  
 
-Make a copy of the dummy makefile  
+复制 makefile  
 ```
 $ cp makefile.suite makefile
 ```  
 
-In dbgen folder find the created makefile and insert highlighted values (bold) to this file.  
+对 makefile 进行如下修改
 ```
 ################
 ## CHANGE NAME OF ANSI COMPILER HERE
