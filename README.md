@@ -11,7 +11,7 @@ $ cd 2.18.0_rc2/dbgen
 $ cp makefile.suite makefile
 ```  
 
-对 makefile 进行如下修改
+修改 makefile 文件，设置编译器、数据库和操作系统等
 ```
 ################
 ## CHANGE NAME OF ANSI COMPILER HERE
@@ -29,7 +29,7 @@ WORKLOAD = *TPCH*
 ...
 ```  
 
-In dbgen folder find the *tpcd.h* file and edit higlighted (bold) values for SQLSERVER.  
+修改dbgen目录下的 *tpcd.h* 文件，支持MySQL语法  
 ```
 ...
 #ifdef  SQLSERVER
@@ -43,24 +43,24 @@ In dbgen folder find the *tpcd.h* file and edit higlighted (bold) values for SQL
 ...
 ```  
 
-Run make command.  
+执行make命令 
 ```
 $ make
 ```  
 
-Generate the files for population. (The last numeric parametr determines the volume of data with which will be your database then populated - I decided that 0.1 (=100MB) is fine for my purposes, since I am not interested in the database benchmark tests.  
+通过以下命令生成100MB的数据
 ```
 $ ./dbgen -s 0.1
 ```  
 
-Connect to SQL server with permission to reach local files, create database and connect to schema.  
+连接MySQL创建数据库
 ```
 $ mysql -u root -p --local-infile
 $ mysql> CREATE DATABASE tpch;
 $ mysql> USE tpch;
 ```  
 
-Run following queries in SQL console uploaded in this repository.  
+创建表  
 ```
 CREATE TABLE NATION  ( N_NATIONKEY  INTEGER NOT NULL,
                             N_NAME       CHAR(25) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE LINEITEM ( L_ORDERKEY    INTEGER NOT NULL,
                              L_COMMENT      VARCHAR(44) NOT NULL);
 ```  
 
-Populate tables with generated dummy data.  
+加载tbl数据到数据库，也可以通过navicat导入向导导入
 ```
 LOAD DATA LOCAL INFILE 'customer.tbl' INTO TABLE CUSTOMER FIELDS TERMINATED BY '|';
 LOAD DATA LOCAL INFILE 'orders.tbl' INTO TABLE ORDERS FIELDS TERMINATED BY '|';
@@ -144,8 +144,7 @@ LOAD DATA LOCAL INFILE 'region.tbl' INTO TABLE REGION FIELDS TERMINATED BY '|';
 LOAD DATA LOCAL INFILE 'supplier.tbl' INTO TABLE SUPPLIER FIELDS TERMINATED BY '|';
 ```  
 
-Alter the schema dependencies (The original statement can be found in dss.ri. This is my modified version in order to work with MySQL.)
-
+增加主外键
 ```
 ALTER TABLE REGION
 ADD PRIMARY KEY (R_REGIONKEY);
