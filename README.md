@@ -61,7 +61,7 @@ $ mysql> USE tpch;
 ```  
 
 执行以下建表语句，可以在 *2.18.0_rc2/dbgen/dss.ddl* 中找到，但原始sql不支持MySQL
-```
+```sql
 CREATE TABLE NATION  ( N_NATIONKEY  INTEGER NOT NULL,
                             N_NAME       CHAR(25) NOT NULL,
                             N_REGIONKEY  INTEGER NOT NULL,
@@ -145,7 +145,7 @@ LOAD DATA LOCAL INFILE 'supplier.tbl' INTO TABLE SUPPLIER FIELDS TERMINATED BY '
 ```  
 
 执行以下增加主外键的语句，可以在 *2.18.0_rc2/dbgen/dss.ri* 中找到，但原始sql不支持MySQL
-```
+```sql
 ALTER TABLE REGION
 ADD PRIMARY KEY (R_REGIONKEY);
 ALTER TABLE NATION
